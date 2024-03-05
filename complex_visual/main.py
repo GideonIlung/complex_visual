@@ -3,52 +3,36 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-class ComplexVisual:
-    """
-        contains functions which are useful
-        for plotting complex functions
-    """
-
-
-    @classmethod
-    def modular_plot(cls,F,X,Y,mod_limit=2,color = 'plasma'):
+def curve_plot(cls,f,phi,a,b,n_points=1000):
         """
-            creates a modular plot
-            of the function 
+            plots how the function changes given a curve
+            parameterised by phi(t), t in [a,b]
         """
 
-        Z = X + (1j)*Y
+        t = np.linspace(a,b,n_points+1)
+        x,y = phi(t)
 
-        f = F(Z) #applying the mapping#
+        z = x + (1j)*y
 
-        phi = np.abs(f)
-        alpha = np.angle(f)
+        fz = f(z)
 
+        xnew = np.real(fz)
+        ynew = np.imag(fz)
 
-        # Normalize alpha for color mapping
-        alpha_normalized = (alpha - np.min(alpha)) / (np.max(alpha) - np.min(alpha))
+        # Create the plot
+        #Create a subplot figure with 1 row and 2 columns
+        fig = make_subplots(rows=1, cols=2, subplot_titles=("Plot 1", "Plot 2"))
 
-        # Create the 3D surface plot
-        fig = go.Figure(data=[go.Surface(
-            x = X,
-            y = Y,
-            z=np.minimum(phi,mod_limit),
-            surfacecolor=alpha_normalized, 
-            colorscale=color, 
-        )])
+        # Add the original plot to the first column
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Original Curve'), row=1, col=1)
 
-        fig.update_layout(title='3D Surface Plot with Modulus as Height and Angle as Color',
-                        scene=dict(
-                            xaxis_title='Re',
-                            yaxis_title='Img',
-                            zaxis_title=r'f(z)'
-                        ))
+        # Add the new plot to the second column
+        fig.add_trace(go.Scatter(x=xnew, y=ynew, mode='lines', name='New Curve'), row=1, col=2)
 
-        # Show the figure
+        # Show the plot
         fig.show()
-    
-    @classmethod
-    def angle_plot(cls,F,X,Y):
+
+def angle_plot(F,X,Y):
         """
             creates an angle plot given the function F
         """
@@ -85,37 +69,40 @@ class ComplexVisual:
         # Show the plot
         fig.show()
 
-    @classmethod
-    def curve_plot(cls,f,phi,a,b,n_points=1000):
+def modular_plot(F,X,Y,mod_limit=2,color = 'plasma'):
         """
-            plots how the function changes given a curve
-            parameterised by phi(t), t in [a,b]
+            creates a modular plot
+            of the function 
         """
 
-        t = np.linspace(a,b,n_points+1)
-        x,y = phi(t)
+        Z = X + (1j)*Y
 
-        z = x + (1j)*y
+        f = F(Z) #applying the mapping#
 
-        fz = f(z)
+        phi = np.abs(f)
+        alpha = np.angle(f)
 
-        xnew = np.real(fz)
-        ynew = np.imag(fz)
 
-        # Create the plot
-        #Create a subplot figure with 1 row and 2 columns
-        fig = make_subplots(rows=1, cols=2, subplot_titles=("Plot 1", "Plot 2"))
+        # Normalize alpha for color mapping
+        alpha_normalized = (alpha - np.min(alpha)) / (np.max(alpha) - np.min(alpha))
 
-        # Add the original plot to the first column
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Original Curve'), row=1, col=1)
+        # Create the 3D surface plot
+        fig = go.Figure(data=[go.Surface(
+            x = X,
+            y = Y,
+            z=np.minimum(phi,mod_limit),
+            surfacecolor=alpha_normalized, 
+            colorscale=color, 
+        )])
 
-        # Add the new plot to the second column
-        fig.add_trace(go.Scatter(x=xnew, y=ynew, mode='lines', name='New Curve'), row=1, col=2)
+        fig.update_layout(title='3D Surface Plot with Modulus as Height and Angle as Color',
+                        scene=dict(
+                            xaxis_title='Re',
+                            yaxis_title='Img',
+                            zaxis_title=r'f(z)'
+                        ))
 
-        # Update layout if you need to adjust more settings
-        #fig.update_layout(height=600, width=800, title_text="Side by Side Subplots")
-
-        # Show the plot
+        # Show the figure
         fig.show()
 
 
@@ -130,5 +117,5 @@ if __name__ == "__main__":
 
     X, Y = np.meshgrid(x, y)
 
-    ComplexVisual.modular_plot(f,X,Y)
+    modular_plot(f,X,Y)
  
