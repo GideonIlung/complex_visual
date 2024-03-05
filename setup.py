@@ -14,6 +14,6 @@ setup(
     description='libary of tools that can be used to visualise complex functions and transformations',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/your_package',
+    url='https://github.com/GideonIlung/complex_visual',
     license='MIT'
 )
