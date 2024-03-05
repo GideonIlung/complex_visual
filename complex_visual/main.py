@@ -3,7 +3,7 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-def curve_plot(cls,f,phi,a,b,n_points=1000):
+def curve_plot(f,phi,a,b,n_points=1000):
         """
             plots how the function changes given a curve
             parameterised by phi(t), t in [a,b]
