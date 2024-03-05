@@ -1,4 +1,4 @@
-from cv import ComplexVisual
+from main import ComplexVisual
 import numpy as np
 
 
