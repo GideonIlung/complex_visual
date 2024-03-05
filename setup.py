@@ -6,7 +6,7 @@ def read_requirements():
 
 setup(
     name='complex_visual',
-    version='0.3',
+    version='0.31',
     packages=find_packages(),
     install_requires=read_requirements(),
     author='Gideon Ilung',
